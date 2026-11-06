@@ -1,0 +1,14 @@
+# Future Enhancement Recommendations
+
+Ordered roughly by expected value versus effort for a tool in this space.
+
+1. **Multi-turn conversation export/import.** Add "Export as Markdown/JSON" and "Import" on the Conversations list — useful for sharing a Split View comparison session with a teammate or attaching it to an incident review.
+2. **N-way split beyond two channels.** Split View currently compares exactly one Direct Provider against one LLM Gateway. A natural next step is letting a saved Provider *and* a saved Gateway profile each expand into their own column, so a user can compare three or four connections (e.g. two different gateways) at once instead of exactly two.
+3. **Request/response inspector.** A collapsible drawer showing the exact outbound HTTP request (method, URL, headers with secrets masked, body) and the raw upstream response for the most recent turn — valuable for debugging gateway header/auth issues without opening browser devtools.
+4. **Per-conversation connection binding.** Currently every conversation uses whatever connection is active at send-time. Pinning a connection to a conversation (so switching providers doesn't affect history you're revisiting) would make long-lived comparison threads more reliable.
+5. **Gateway health checks.** A "Test connection" button on the Gateway form that sends a minimal request and reports latency/status before the user starts a real conversation.
+6. **Role-based settings for teams.** If QuilrBot is rolled out to a team rather than a single engineer, add a read-only "managed defaults" mode where an admin ships a `server/.env` with pre-approved gateways/providers and end users can't edit — only select — connections.
+7. **Additional API dialects.** The adapter pattern already supports adding a third `apiStyle` (e.g. for a provider with a genuinely different streaming format) without touching `ChatService` or any UI component — a good candidate is native Google Gemini `generateContent` for teams who need thinking-token or safety-rating fields the OpenAI-compatibility endpoint doesn't expose.
+8. **Encrypted conversation history.** Conversations currently live in plaintext `localStorage` (by design — they contain no long-lived credentials). If QuilrBot is used with sensitive prompts, offer an opt-in "encrypt conversation history" setting using the same AES-256-GCM primitive already implemented server-side.
+9. **Theming beyond dark/light.** The Settings > General theme selector already has a `light` option scaffolded; implementing a real light palette (and possibly a high-contrast accessibility mode) would complete that surface.
+10. **Packaged desktop app.** Wrapping the existing client/server pair in Electron or Tauri would remove the "open two terminals, open a browser tab" setup step entirely for non-technical users, at the cost of a larger download.
